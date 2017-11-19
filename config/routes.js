@@ -22,28 +22,19 @@
 
 module.exports.routes = {
 
-  /***************************************************************************
-  *                                                                          *
-  * Make the view located at `views/homepage.ejs` (or `views/homepage.jade`, *
-  * etc. depending on your default view engine) your home page.              *
-  *                                                                          *
-  * (Alternatively, remove this and add an `index.html` file in your         *
-  * `assets` directory)                                                      *
-  *                                                                          *
-  ***************************************************************************/
+  'post /api/login' : 'UserController.login',
+  'post /api/register' : 'UserController.register',
 
-  '/': {
-    view: 'homepage'
-  }
+  'get /api/user/me' : 'UserController.me',
+  'put /api/user/me' : 'UserController.updateMe',
+  'get /api/user/:id' : 'UserController.get',
+  'get /api/user' : 'UserController.search',
 
-  /***************************************************************************
-  *                                                                          *
-  * Custom routes here...                                                    *
-  *                                                                          *
-  * If a request to a URL doesn't match any of the custom routes above, it   *
-  * is matched against Sails route blueprints. See `config/blueprints.js`    *
-  * for configuration options and examples.                                  *
-  *                                                                          *
-  ***************************************************************************/
-
+  'get /api/item' : 'ItemController.search',
+  'get /api/item/:id' : 'ItemController.get',
+  'put /api/item/:id' : 'ItemController.update',
+  'delete /api/item/:id' : 'ItemController.delete',
+  'put /api/item' : 'ItemController.create',
+  'post /api/item/:id/image' : 'ItemController.imageUpload',
+  'delete /api/item/:id/image' : 'ItemController.imageDelete'
 };
