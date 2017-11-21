@@ -71,6 +71,10 @@ module.exports = {
                     .exec(function(err, records){
                         return res.send(records);
                     });
+            })
+            .catch(function(err){
+                res.status(422);
+                return res.send(err);
             });
     },
     imageDelete:function(req,res){

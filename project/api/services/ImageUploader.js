@@ -5,8 +5,16 @@ module.exports = {
     process: function(fileObject, itemId){
         return new Promise(function(resolve, reject) {
             fileObject.upload({
-                maxBytes : 100000000
+                maxBytes : 10
             }, function (err, uploadedFiles) {
+                if (err) {
+                    reject([{field:'file', message:err.message}]);
+                    return;
+                }
+                if (!uploadedFiles.length) {
+                    reject([{field:'file', message:'File is required'}]);
+                    return;
+                }
                 for (var i in uploadedFiles) {
                     var path = 'assets/images/'+itemId;
                     if (fs.existsSync(path)) {

@@ -7,6 +7,8 @@
 
 module.exports = {
     schema: true,
+    autoCreatedAt: false,
+    autoUpdatedAt: false,
     attributes: {
       name:{
           type:'string',
@@ -27,6 +29,20 @@ module.exports = {
       token:{
           type:'string'
       },
+      createdAt: {
+        type: 'integer',
+        defaultsTo: function() {
+          var date = new Date();
+          return parseInt(date.getTime()/1000);
+        }
+      },
+      updatedAt: {
+        type: 'integer',
+        defaultsTo: function() {
+          var date = new Date();
+          return parseInt(date.getTime()/1000);
+        }
+      },
       toJSON:function(){
           var obj = this.toObject();
           delete obj.password;
@@ -34,16 +50,12 @@ module.exports = {
           return obj;
       }
   },
+  beforeSave:function(values,next) {
+    var date = new Date();
+    values.updateDate = parseInt(date.getTime()/1000);
+    next();
+  },
   isEmailRegistered:function(email){
-
-  },
-  getUserByToken:function(token){
-
-  },
-  createToken:function(id){
-
-  },
-  updateTokenExpTime:function(token){
 
   }
 };

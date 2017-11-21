@@ -5,7 +5,6 @@
  *
  */
 module.exports = function(req, res, next) {
-
   var authToken = req.headers.authorization;
   if (!authToken) {
       res.status(401);
@@ -13,17 +12,15 @@ module.exports = function(req, res, next) {
   }
 
     User
-        .findOneById(authToken)
+        .findOne({id:authToken})
         .exec(function(err, user) {
             if (err || !user) {
                 res.status(401);
                 return res.send();
             }
 
-            if (req.body) {
-                req.session.user_id = user.id;
-                req.session.user = user;
-            }
+            req.session.user_id = user.id;
+            req.session.user = user;
             return next();
         });
 };

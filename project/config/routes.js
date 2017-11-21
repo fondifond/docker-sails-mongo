@@ -25,7 +25,7 @@ module.exports.routes = {
   'post /api/login' : 'UserController.login',
   'post /api/register' : 'UserController.register',
 
-  'get /api/user/me' : 'UserController.me',
+  'get /api/me' : 'UserController.me',
   'put /api/user/me' : 'UserController.updateMe',
   'get /api/user/:id' : 'UserController.get',
   'get /api/user' : 'UserController.search',

@@ -7,23 +7,6 @@
 var mongo = require('mongodb');
 
 module.exports = {
-    login:function(req,res){
-        User
-            .findOneByEmail(req.body.email)
-            .exec(function(err, user) {
-                if (err || !user) {
-                    res.status(422);
-                    return res.send({'password':'Wrong email or password'});
-                }
-
-                if (user.password != req.body.password) {
-                    res.status(422);
-                    return res.send({'password':'Wrong email or password'});
-                }
-
-                return res.send({'token':user.id});
-            });
-    },
     register:function(req,res){
         User.validate(req.body, function(err) {
             if (err && err.invalidAttributes) {
@@ -31,22 +14,34 @@ module.exports = {
                 return res.send(ErrorsWrapper.wrap(err.invalidAttributes));
             } else {
                 User.create(req.body).exec(function(err, records){
+                    if (err) {
+                        res.status(422);
+                        return res.send([{field:'email',message:'Email already exists'}]);
+                    }
                     return res.send(records);
                 });
             }
         });
     },
-    me:function(req,res){
+    login:function(req,res){
         User
-            .findOneById(req.session.user_id)
+            .findOneByEmail(req.body.email)
             .exec(function(err, user) {
                 if (err || !user) {
-                    res.status(404);
-                    return res.send();
+                    res.status(422);
+                    return res.send([{field:'password',message:'Wrong email or password'}]);
                 }
 
-                return res.send(user);
+                if (user.password != req.body.password) {
+                    res.status(422);
+                    return res.send({field:'password',message:'Wrong email or password'});
+                }
+
+                return res.send({'token':user.id});
             });
+    },
+    me:function(req,res){
+        return res.send(req.session.user);
     },
     updateMe:function(req, res){
         User
