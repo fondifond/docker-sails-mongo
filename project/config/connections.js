@@ -60,9 +60,6 @@ module.exports.connections = {
     adapter: 'sails-mongo',
     host: 'mongo',
     port: 27017
-    // user: 'fondifond', //optional
-    // password: 'Tre13ieme#', //optional
-    // database: 'cleverroad' //optional
   },
 
   /***************************************************************************
